@@ -29,7 +29,7 @@ func topKFrequent(nums []int, k int) []int {
 type IHeap [][2]int
 
 func (h IHeap) Len() int           { return len(h) }
-func (h IHeap) Less(i, j int) bool { return h[i][1] < h[j][1] }
+func (h IHeap) Less(i, j int) bool { return h[i][1] < h[j][1] } //i是子节点，j是父亲节点，Less返回true交换
 func (h IHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 
 func (h *IHeap) Push(x interface{}) {
