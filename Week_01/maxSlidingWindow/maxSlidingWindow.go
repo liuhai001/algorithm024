@@ -58,7 +58,36 @@ func maxSlidingWindow_1(nums []int, k int) []int {
 	return result
 }
 
+//单调队列
+func maxSlidingWindow_2(nums []int, k int) []int {
+	res := make([]int, 0, len(nums))
+	//异常情况
+	if len(nums) == 0 || k < 0 || k > len(nums) {
+		return res
+	}
+	length := len(nums)
+	//双端队列，里面存的是index
+	dequeue := []int{}
+	for i := 0; i < length; i++ {
+		//窗口滑动
+		if len(dequeue) > 0 && dequeue[0] < i-k+1 {
+			dequeue = dequeue[1:]
+		}
+		//保持队列单调
+		for len(dequeue) > 0 && nums[i] > nums[dequeue[len(dequeue)-1]] {
+			dequeue = dequeue[:len(dequeue)-1]
+		}
+		dequeue = append(dequeue, i)
+
+		if i >= k-1 {
+			res = append(res, nums[dequeue[0]])
+		}
+	}
+
+	return res
+}
+
 func main() {
 	nums := []int{1, 3, -1, -3, 5, 3, 6, 7}
-	fmt.Println(maxSlidingWindow_1(nums, 3))
+	fmt.Println(maxSlidingWindow_2(nums, 3))
 }
